@@ -20,9 +20,13 @@ const { title, description = "Security Researcher & Penetration Tester" } = Astr
 </head>
 <body>
     <div class="bg-grid"></div>
-    <div class="bg-glow bg-glow--1"></div>
-    <div class="bg-glow bg-glow--2"></div>
-    <div class="bg-glow bg-glow--3"></div>
+    <!-- Fixed, viewport-sized wrapper clips the oversized blurred glows so they
+         can't push horizontal overflow (fixed children escape body's overflow). -->
+    <div class="bg-glows" aria-hidden="true">
+        <div class="bg-glow bg-glow--1"></div>
+        <div class="bg-glow bg-glow--2"></div>
+        <div class="bg-glow bg-glow--3"></div>
+    </div>
     <div class="scanline"></div>
 
     <slot />

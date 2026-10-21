@@ -99,8 +99,19 @@ hr + h4 {
     100% { transform: translate(60px, 60px); }
 }
 
-.bg-glow {
+/* Viewport-sized clip layer for the ambient glows. It is fixed (so the glows
+   still read as a static background) and clips them, so their oversized width
+   can't create horizontal page overflow on narrow screens. */
+.bg-glows {
     position: fixed;
+    inset: 0;
+    overflow: hidden;
+    z-index: -2;
+    pointer-events: none;
+}
+
+.bg-glow {
+    position: absolute;
     border-radius: 50%;
     filter: blur(120px);
     z-index: -2;
@@ -164,7 +175,7 @@ hr + h4 {
 }
 
 .bg-glow {
-    position: fixed;
+    position: absolute;
     border-radius: 50%;
     filter: blur(150px);
     z-index: -2;
@@ -664,6 +675,9 @@ hr + h4 {
 }
 
 .cert-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 32px;
     text-align: center;
     position: relative;
@@ -803,13 +817,18 @@ hr + h4 {
 .contact__tiles {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
     gap: 12px;
+    /* Stretch the tile grid to the full height of the left column and let the
+       two rows share it equally, so the tiles aren't floating in dead space. */
+    align-self: stretch;
 }
 
 .contact__tile {
     display: flex;
-    flex-direction: column;
-    gap: 4px;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
     padding: 18px;
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
@@ -824,10 +843,6 @@ hr + h4 {
     background: var(--accent-bg);
     border-color: var(--border-accent);
     transform: translateY(-2px);
-}
-
-.contact__tile .contact__icon {
-    margin-bottom: 8px;
 }
 
 .contact__tile-name {
@@ -1102,6 +1117,17 @@ pre.astro-code code::-webkit-scrollbar-thumb:hover {
     .contact { grid-template-columns: 1fr; padding: 24px; }
 
     .certs-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+    /* Two cert cards get too cramped on phones — stack them full-width. */
+    .certs-grid { grid-template-columns: 1fr; }
+
+    /* Full-width card gives the badge more room — size it up a touch. */
+    .cert-card__badge { width: 190px; height: 190px; }
+
+    /* Contact tiles become a single column (icon-left rows are the base style). */
+    .contact__tiles { grid-template-columns: 1fr; grid-template-rows: none; }
 }
 
 @media (max-width: 768px) {

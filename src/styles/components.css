@@ -606,28 +606,15 @@
         grid-template-columns: 1fr;
     }
 
+    /* Reset the desktop column-2 placement so prev/next joins the single column
+       instead of spawning an implicit second track (which re-splits the layout). */
+    .c-article > .c-prev-next {
+        grid-column: 1;
+    }
+
+    /* Hide the Contents (TOC) panel entirely on mobile — the prose goes full-width. */
     .c-toc {
-        position: relative;
-        top: 0;
-        margin-bottom: 32px;
-    }
-
-    .c-toc__nav {
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 4px;
-    }
-
-    .c-toc__link {
-        border-left: none;
-        border-bottom: 2px solid transparent;
-        font-size: 11px;
-        padding: 6px 10px;
-    }
-
-    .c-toc__link.active {
-        border-left: none;
-        border-bottom-color: var(--accent);
+        display: none;
     }
 
     .c-hero__title {
@@ -646,16 +633,31 @@
 
 @media (max-width: 600px) {
     .c-filters__separator { display: none; }
+
+    /* Search takes the full row so the filter buttons wrap below it. */
+    .c-search--inline {
+        flex: 1 0 100%;
+        max-width: none;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--border);
+    }
 }
 
 @media (max-width: 600px) {
-    .c-prev-next {
-        grid-template-columns: 1fr;
+    /* Keep Previous/Next side by side (base is 1fr 1fr), just more compact,
+       and truncate long machine names so they can't overflow the button. */
+    .c-prev-next { gap: 10px; }
+
+    .c-prev-next__btn {
+        padding: 14px 16px;
+        min-width: 0;
     }
 
-    .c-prev-next__btn--next {
-        text-align: left;
-        align-items: flex-start;
-        margin-left: 0;
+    .c-prev-next__title {
+        font-size: 15px;
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
