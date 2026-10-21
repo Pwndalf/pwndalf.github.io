@@ -629,6 +629,8 @@
 @media (max-width: 768px) {
     .c-page-hero__title { font-size: 28px; }
     .c-hero__title { font-size: 28px; }
+    /* Bigger HTB icon to balance the wrapped two-line heading on mobile. */
+    .c-page-hero__icon { width: 68px; height: 68px; }
 }
 
 @media (max-width: 600px) {
