@@ -1,0 +1,109 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navbar from '../../components/Navbar.astro';
+import WalkthroughCard from '../../components/WalkthroughCard.astro';
+import SearchIcon from '../../icons/search.svg';
+
+const walkthroughs = await Astro.glob('../../content/walkthroughs/*.md');
+
+const sorted = walkthroughs.sort((a, b) => {
+    const da = new Date(a.frontmatter.date);
+    const db = new Date(b.frontmatter.date);
+    return db.getTime() - da.getTime();
+});
+---
+
+<BaseLayout title="HTB Walkthroughs | Pwndalf">
+    <Navbar activePage="walkthroughs" solid />
+
+    <section class="section c-page-hero">
+        <div class="container">
+            <h1 class="c-page-hero__title">
+                <img src="/icons/hack-the-box.svg" alt="HackTheBox" class="c-page-hero__icon">
+                HackTheBox Walkthroughs
+            </h1>
+            <p class="c-page-hero__subtitle">
+                Detailed walkthroughs of retired HTB machines — enumeration, exploitation, and post-exploitation.
+            </p>
+
+            <div class="c-filters glass-card">
+                <div class="c-search c-search--inline">
+                    <SearchIcon class="c-search__icon" width="18" height="18" />
+                    <input type="text" class="c-search__input" id="walkthroughSearch" placeholder="Search..." autocomplete="off">
+                </div>
+                <div class="c-filters__separator"></div>
+                <button class="c-filters__btn active" data-filter="all">All</button>
+                <button class="c-filters__btn" data-filter="easy">Easy</button>
+                <button class="c-filters__btn" data-filter="medium">Medium</button>
+                <button class="c-filters__btn" data-filter="hard">Hard</button>
+                <button class="c-filters__btn" data-filter="insane">Insane</button>
+                <div class="c-filters__separator"></div>
+                <button class="c-filters__btn" data-filter="windows">Windows</button>
+                <button class="c-filters__btn" data-filter="linux">Linux</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="padding-top: 20px;">
+        <div class="container">
+            <div class="c-grid" id="walkthroughsGrid">
+                {sorted.map(w => (
+                    <WalkthroughCard slug={w.frontmatter.slug} />
+                ))}
+            </div>
+            <div class="c-empty" id="walkthroughsEmpty" style="display:none;">
+                <p>No walkthroughs match your search.</p>
+            </div>
+        </div>
+    </section>
+</BaseLayout>
+
+<style is:global>
+    @import '../../styles/walkthroughs.css';
+</style>
+
+<script>
+    const filterBtns = document.querySelectorAll('.c-filters__btn');
+    const cards = document.querySelectorAll('.c-card');
+    const searchInput = document.getElementById('walkthroughSearch') as HTMLInputElement;
+    const emptyMsg = document.getElementById('walkthroughsEmpty');
+
+    let activeFilter = 'all';
+
+    function applyFilters() {
+        const query = searchInput?.value.toLowerCase().trim() || '';
+
+        cards.forEach(card => {
+            const el = card as HTMLElement;
+            const diff = el.dataset.difficulty;
+            const os = el.dataset.os;
+            const title = el.dataset.title || '';
+
+            let matchesFilter = true;
+            if (activeFilter !== 'all') {
+                if (['easy', 'medium', 'hard', 'insane'].includes(activeFilter)) {
+                    matchesFilter = diff === activeFilter;
+                } else if (['windows', 'linux'].includes(activeFilter)) {
+                    matchesFilter = os === activeFilter;
+                }
+            }
+
+            const matchesSearch = !query || title.includes(query);
+            el.classList.toggle('hidden', !(matchesFilter && matchesSearch));
+        });
+
+        const visible = document.querySelectorAll('.c-card:not(.hidden)');
+        emptyMsg!.style.display = visible.length === 0 ? '' : 'none';
+    }
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeFilter = (btn as HTMLElement).dataset.filter!;
+            applyFilters();
+        });
+    });
+
+    searchInput?.addEventListener('input', applyFilters);
+</script>

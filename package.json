@@ -1,0 +1,15 @@
+{
+  "name": "pwndalf-portfolio",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "htb": "node scripts/fetch-htb.mjs",
+    "prebuild": "node scripts/fetch-htb.mjs",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^5.8.0"
+  }
+}

@@ -1,0 +1,192 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navbar from '../../components/Navbar.astro';
+import ArrowLeftIcon from '../../icons/arrow-left.svg';
+import { getMachine } from '../../lib/htb';
+
+const allWalkthroughs = await Astro.glob('../../content/walkthroughs/*.md');
+
+export async function getStaticPaths() {
+    const walkthroughs = await import.meta.glob('../../content/walkthroughs/*.md', { eager: true });
+    return Object.values(walkthroughs).map((w: any) => ({
+        params: { slug: w.frontmatter.slug },
+        props: { walkthrough: w },
+    }));
+}
+
+const { walkthrough } = Astro.props;
+const { frontmatter, Content } = walkthrough;
+
+const info = getMachine(frontmatter.slug);
+const { name, description, difficulty } = info;
+const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+const sorted = allWalkthroughs.sort((a: any, b: any) =>
+    a.frontmatter.title.localeCompare(b.frontmatter.title)
+);
+const currentIndex = sorted.findIndex((w: any) => w.frontmatter.slug === frontmatter.slug);
+const prevWalkthrough = currentIndex > 0 ? sorted[currentIndex - 1] : null;
+const nextWalkthrough = currentIndex < sorted.length - 1 ? sorted[currentIndex + 1] : null;
+---
+
+<BaseLayout title={`${name} - HTB Walkthrough | Pwndalf`} description={description}>
+    <Navbar activePage="walkthroughs" solid />
+
+    <article>
+        <header class="c-hero">
+            <div class="container">
+                <a href="/walkthroughs" class="c-back">
+                    <ArrowLeftIcon width="16" height="16" />
+                    Back to Walkthroughs
+                </a>
+
+                <h1 class="c-hero__title">{name}</h1>
+                <p class="c-hero__subtitle walkthrough-hero__desc">{description}</p>
+
+                <div class="machine-info glass-card">
+                    <div class="machine-info__row">
+                        <div class="machine-info__item">
+                            <span class="machine-info__label">Difficulty</span>
+                            <span class={`machine-info__value machine-info__value--${difficulty}`}>
+                                {capitalize(difficulty)}
+                            </span>
+                        </div>
+                        <div class="machine-info__item">
+                            <span class="machine-info__label">OS</span>
+                            <span class="machine-info__value">{info.os}</span>
+                        </div>
+                        <div class="machine-info__item">
+                            <span class="machine-info__label">Released</span>
+                            <span class="machine-info__value">{info.released}</span>
+                        </div>
+                        <div class="machine-info__item">
+                            <span class="machine-info__label">Rating</span>
+                            <span class="machine-info__value machine-info__value--rating">{info.rating}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="c-article container">
+            <aside class="c-toc">
+                <div class="c-toc__card glass-card">
+                    <h3 class="c-toc__title">Contents</h3>
+                    <nav class="c-toc__nav">
+                        {(frontmatter.toc || []).map((item: { id: string; label: string }, i: number) => (
+                            <a href={`#${item.id}`} class:list={['c-toc__link', { active: i === 0 }]}>
+                                <span class="c-toc__num">{String(i + 1).padStart(2, '0')}</span>
+                                {item.label}
+                            </a>
+                        ))}
+                    </nav>
+                </div>
+            </aside>
+
+            <div class="c-prose">
+                <Content />
+            </div>
+
+            <div class="c-prev-next">
+                {prevWalkthrough ? (
+                    <a href={`/walkthroughs/${prevWalkthrough.frontmatter.slug}`} class="c-prev-next__btn glass-card">
+                        <span class="c-prev-next__label"><span class="c-prev-next__arrow">‹</span> Previous</span>
+                        <span class="c-prev-next__title">{prevWalkthrough.frontmatter.title}</span>
+                    </a>
+                ) : <span />}
+                {nextWalkthrough ? (
+                    <a href={`/walkthroughs/${nextWalkthrough.frontmatter.slug}`} class="c-prev-next__btn c-prev-next__btn--next glass-card">
+                        <span class="c-prev-next__label">Next <span class="c-prev-next__arrow">›</span></span>
+                        <span class="c-prev-next__title">{nextWalkthrough.frontmatter.title}</span>
+                    </a>
+                ) : <span />}
+            </div>
+        </div>
+    </article>
+</BaseLayout>
+
+<style is:global>
+    @import '../../styles/walkthroughs.css';
+</style>
+
+<script>
+    const tocLinks = document.querySelectorAll('.c-toc__link');
+    const sections = document.querySelectorAll('.c-prose h2[id]');
+    const tocNav = document.querySelector('.c-toc__nav');
+
+    if (tocLinks.length && sections.length) {
+        const obs = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    tocLinks.forEach(link => {
+                        const href = link.getAttribute('href')?.replace('#', '');
+                        const isActive = href === id;
+                        link.classList.toggle('active', isActive);
+                        if (isActive && tocNav) {
+                            link.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                        }
+                    });
+                }
+            });
+        }, { rootMargin: '-20% 0px -60% 0px' });
+        sections.forEach(s => obs.observe(s));
+
+        tocLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const id = link.getAttribute('href')?.replace('#', '');
+                if (id) document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    }
+
+    const bar = document.createElement('div');
+    bar.className = 'c-progress';
+    bar.innerHTML = '<div class="c-progress__fill"></div>';
+    document.body.appendChild(bar);
+    const fill = bar.querySelector('.c-progress__fill') as HTMLElement;
+    window.addEventListener('scroll', () => {
+        const pct = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+        fill.style.width = `${Math.min(pct, 100)}%`;
+    });
+
+    // Image lightbox: click a prose image to expand it over a blurred backdrop;
+    // click the backdrop (or press Escape) to close.
+    const imageLinks = [...document.querySelectorAll<HTMLAnchorElement>('.c-prose a')]
+        .filter(a => a.querySelector('img') && /\.(png|jpe?g|gif|webp|avif|svg)$/i.test(a.getAttribute('href') || ''));
+
+    if (imageLinks.length) {
+        const lightbox = document.createElement('div');
+        lightbox.className = 'c-lightbox';
+        lightbox.setAttribute('role', 'dialog');
+        lightbox.setAttribute('aria-modal', 'true');
+        const lightboxImg = document.createElement('img');
+        lightboxImg.alt = '';
+        lightbox.appendChild(lightboxImg);
+        document.body.appendChild(lightbox);
+
+        const open = (src: string, alt: string) => {
+            lightboxImg.src = src;
+            lightboxImg.alt = alt;
+            lightbox.style.display = 'flex';
+            document.body.classList.add('lightbox-open');
+            requestAnimationFrame(() => lightbox.classList.add('open'));
+        };
+        const close = () => {
+            lightbox.classList.remove('open');
+            document.body.classList.remove('lightbox-open');
+            setTimeout(() => { lightbox.style.display = 'none'; lightboxImg.src = ''; }, 200);
+        };
+
+        imageLinks.forEach(a => a.addEventListener('click', (e) => {
+            e.preventDefault();
+            const img = a.querySelector('img');
+            open(a.getAttribute('href')!, img?.getAttribute('alt') || '');
+        }));
+        lightbox.addEventListener('click', close);
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightbox.classList.contains('open')) close();
+        });
+    }
+</script>

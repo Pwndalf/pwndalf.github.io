@@ -1,0 +1,36 @@
+---
+interface Props {
+  activePage?: string;
+  solid?: boolean;
+}
+
+const { activePage = 'home', solid = false } = Astro.props;
+---
+
+<nav class:list={['navbar', { 'navbar--solid': solid }]} id="navbar">
+    <div class="navbar__container">
+        <a href="/" class="navbar__logo">
+            <span class="navbar__logo-bracket">[</span>
+            <span class="navbar__logo-text">pwndalf</span>
+            <!-- <span class="navbar__logo-cursor">_</span> -->
+            <span class="navbar__logo-bracket">]</span>
+        </a>
+        <div class="navbar__links" id="navLinks">
+            <a href="/#profile" class:list={['navbar__link', { active: activePage === 'home' }]} data-section="profile">
+                <span class="navbar__link-prefix">01.</span> Profile
+            </a>
+            <a href="/#certifications" class="navbar__link" data-section="certifications">
+                <span class="navbar__link-prefix">02.</span> Certifications
+            </a>
+            <a href="/#contact" class="navbar__link" data-section="contact">
+                <span class="navbar__link-prefix">03.</span> Contact
+            </a>
+            <a href="/walkthroughs" class:list={['navbar__link', 'navbar__link', { active: activePage === 'walkthroughs' }]}>
+                <span class="navbar__link-prefix">04.</span> Walkthroughs
+            </a>
+        </div>
+        <button class="navbar__toggle" id="navToggle" aria-label="Toggle menu" aria-controls="navLinks" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>

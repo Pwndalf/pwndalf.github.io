@@ -1,0 +1,304 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import MailIcon from '../icons/mail.svg';
+import CopyIcon from '../icons/copy.svg';
+import KofiIcon from '../icons/kofi.svg';
+import HackTheBoxIcon from '../icons/hackthebox.svg';
+import LinkedinIcon from '../icons/linkedin.svg';
+import DiscordIcon from '../icons/discord.svg';
+---
+
+<BaseLayout title="Pwndalf | Security Researcher">
+    <Navbar activePage="home" />
+
+    <!-- Pixelate filters for the hero name hover effect -->
+    <svg class="sr-filters" aria-hidden="true">
+        <defs>
+            <filter id="pixelate-4" x="0" y="0">
+                <feFlood x="2" y="2" height="1" width="1" />
+                <feComposite width="4" height="4" />
+                <feTile result="tiles" />
+                <feComposite in="SourceGraphic" in2="tiles" operator="in" />
+                <feMorphology operator="dilate" radius="2" />
+            </filter>
+            <filter id="pixelate-8" x="0" y="0">
+                <feFlood x="4" y="4" height="1" width="1" />
+                <feComposite width="8" height="8" />
+                <feTile result="tiles" />
+                <feComposite in="SourceGraphic" in2="tiles" operator="in" />
+                <feMorphology operator="dilate" radius="4" />
+            </filter>
+            <filter id="pixelate-12" x="0" y="0">
+                <feFlood x="6" y="6" height="1" width="1" />
+                <feComposite width="12" height="12" />
+                <feTile result="tiles" />
+                <feComposite in="SourceGraphic" in2="tiles" operator="in" />
+                <feMorphology operator="dilate" radius="6" />
+            </filter>
+        </defs>
+    </svg>
+
+    <!-- Hero / Profile -->
+    <section class="section section--hero" id="profile">
+        <div class="container">
+            <h2 class="section__title">
+                <span class="section__number">01.</span> Profile
+            </h2>
+            <div class="hero">
+                <div class="hero__info">
+                    <p class="hero__greeting">Hello World. I'm</p>
+                    <div class="hero__name-row">
+                        <h1 class="hero__name pixelate">Pwndalf</h1>
+                        <img src="/images/profile.png" alt="Pwndalf" class="hero__photo">
+                    </div>
+                    <h2 class="hero__title">
+                        <span class="hero__title-static">I </span>
+                        <span class="hero__title-typed" id="typedText"></span>
+                        <span class="hero__title-cursor">|</span>
+                    </h2>
+                    <p class="hero__bio">
+                        Offensive security enthusiast and CTF player.
+                        Actively grinding HackTheBox machines and sharpening skills across OSINT,
+                        web security testing, penetration testing, red teaming, C2 operations and exploit development.
+                        Looking to turn passion into profession.
+                    </p>
+                    <div class="hero__actions">
+                        <a href="#contact" class="btn btn--primary">
+                            Get In Touch
+                        </a>
+                        <a href="/walkthroughs" class="btn btn--outline">
+                            Read Walkthroughs
+                        </a>
+                    </div>
+                </div>
+                <div class="hero__terminal">
+                    <div class="terminal__header">
+                        <span class="terminal__dot terminal__dot--red"></span>
+                        <span class="terminal__dot terminal__dot--yellow"></span>
+                        <span class="terminal__dot terminal__dot--green"></span>
+                        <!-- ------------ <span class="terminal__title">~/whoami</span> ------------ -->
+                    </div>
+                    <div class="terminal__body">
+                        <div class="terminal__line terminal__line--1">
+                            <span class="terminal__prompt">$</span>
+                            <span class="terminal__cmd">cat /etc/profile</span>
+                        </div>
+                        <div class="terminal__line terminal__line--2">
+                            <span class="terminal__output">
+                                <span class="terminal__key">name</span>: <span class="terminal__val">"Przemysław Rzepa"</span>
+                            </span>
+                        </div>
+                        <div class="terminal__line terminal__line--3">
+                            <span class="terminal__output">
+                                <span class="terminal__key">role</span>: <span class="terminal__val">"CTF Player & Offensive Security Researcher"</span>
+                            </span>
+                        </div>
+                        <div class="terminal__line terminal__line--4">
+                            <span class="terminal__output">
+                                <span class="terminal__key">certs</span>: <span class="terminal__val">["CPTS", "CWES"]</span>
+                            </span>
+                        </div>
+                        <div class="terminal__line terminal__line--5">
+                            <span class="terminal__output">
+                                <span class="terminal__key">status</span>: <span class="terminal__val terminal__val--green">"Hacking the planet"</span>
+                            </span>
+                        </div>
+                        <div class="terminal__line terminal__line--6">
+                            <span class="terminal__prompt terminal__prompt">$</span>
+                            <span class="terminal__cursor"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications -->
+    <section class="section" id="certifications">
+        <div class="container">
+            <h2 class="section__title">
+                <span class="section__number">02.</span> Certifications
+            </h2>
+            <div class="certs-grid">
+                <!-- CPTS -->
+                <div class="cert-card glass-card" data-aos="fade-up">
+                    <div class="cert-card__badge">
+                        <div class="cert-card__img">
+                            <img src="/images/certificates/cpts.png" alt="CPTS Certification">
+                        </div>
+                    </div>
+                    <h3 class="cert-card__title">CPTS</h3>
+                    <p class="cert-card__issuer">Hack The Box</p>
+                    <p class="cert-card__id">HTBCERT-92B7C39EDF</p>
+                    <span class="cert-card__status cert-card__status--active">Verified</span>
+                    <a href="https://profile.hackthebox.com/profile/019ccd12-b8d0-73f3-a8ac-ddef430c2aba/certificate/HTBCERT-92B7C39EDF" target="_blank" rel="noopener" class="btn btn--small btn--primary cert-card__link">View Credential</a>
+                </div>
+                <!-- CEWS -->
+                <div class="cert-card glass-card" data-aos="fade-up">
+                    <div class="cert-card__badge">
+                        <div class="cert-card__img">
+                            <img src="/images/certificates/cwes.png" alt="CWES Certification">
+                        </div>
+                    </div>
+                    <h3 class="cert-card__title">CWES</h3>
+                    <p class="cert-card__issuer">Hack The Box</p>
+                    <p class="cert-card__id">HTBCERT-DD351A74FB</p>
+                    <span class="cert-card__status cert-card__status--active">Verified</span>
+                    <a href="https://profile.hackthebox.com/profile/019ccd12-b8d0-73f3-a8ac-ddef430c2aba/certificate/HTBCERT-DD351A74FB" target="_blank" rel="noopener" class="btn btn--small btn--primary cert-card__link">View Credential</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section" id="contact">
+        <div class="container">
+            <h2 class="section__title">
+                <span class="section__number">03.</span> Contact
+            </h2>
+            <div class="contact glass-card">
+                <div class="contact__text">
+                    <h3>Let's Connect</h3>
+                    <p>Interested in collaborating on security research, have a question about one of my walkthroughs,
+                       or want to discuss offensive security? Feel free to reach out.</p>
+                    <div class="contact__cta">
+                        <a href="mailto:pwndalf@proton.me" class="btn btn--primary">
+                            <MailIcon class="contact__icon" />
+                            pwndalf@proton.me
+                        </a>
+                        <button type="button" class="contact__copy" data-copy="pwndalf@proton.me" aria-label="Copy email address">
+                            <CopyIcon width="16" height="16" />
+                            <span class="contact__copy-label">Copy</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="contact__tiles">
+                    <a href="https://ko-fi.com/pwndalf" class="contact__tile" target="_blank" rel="noopener">
+                        <KofiIcon class="contact__icon" />
+                        <span class="contact__tile-name">Ko-fi</span>
+                    </a>
+                    <a href="https://app.hackthebox.com/users/1779131" class="contact__tile" target="_blank" rel="noopener">
+                        <HackTheBoxIcon class="contact__icon" />
+                        <span class="contact__tile-name">HackTheBox</span>
+                    </a>
+                    <a href="https://nl.linkedin.com/in/przemys%C5%82aw-r-768555181?trk=people-guest_people_search-card" class="contact__tile" target="_blank" rel="noopener" referrerpolicy="origin">
+                        <LinkedinIcon class="contact__icon" />
+                        <span class="contact__tile-name">LinkedIn</span>
+                    </a>
+                    <a href="https://discordapp.com/users/1082026228875272282" class="contact__tile" target="_blank" rel="noopener">
+                        <DiscordIcon class="contact__icon" />
+                        <span class="contact__tile-name">Discord</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</BaseLayout>
+
+<style>
+    a.cert-card {
+        display: block;
+        color: inherit;
+        text-decoration: none;
+    }
+</style>
+
+<script>
+    // Typing effect
+    const typedEl = document.getElementById('typedText');
+    if (typedEl) {
+        const phrases = [
+            'write HTB Walkthroughs.',
+            'hunt for vulnerabilities.',
+            'write exploits.',
+            'pwn HTB machines.',
+        ];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typeSpeed = 80;
+
+        function type() {
+            const currentPhrase = phrases[phraseIndex];
+            if (isDeleting) {
+                typedEl!.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+                typeSpeed = 40;
+            } else {
+                typedEl!.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+                typeSpeed = 80;
+            }
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                typeSpeed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                typeSpeed = 400;
+            }
+            setTimeout(type, typeSpeed);
+        }
+        setTimeout(type, 1500);
+    }
+
+    // Section tracking: the active section is the last one whose top has passed a
+    // marker line below the navbar (or the last section once scrolled to the bottom).
+    // Recomputed on every scroll, so no section can be skipped.
+    const sections = [...document.querySelectorAll<HTMLElement>('section[id]')];
+    const navLinks = [...document.querySelectorAll<HTMLElement>('.navbar__link[data-section]')];
+    let pinnedSection: string | null = null;
+
+    function setActiveSection(id: string) {
+        navLinks.forEach(link => link.classList.toggle('active', link.dataset.section === id));
+    }
+
+    function updateActiveSection() {
+        if (pinnedSection) return setActiveSection(pinnedSection);
+        const marker = window.innerHeight * 0.35;
+        let current = sections[0].id;
+        for (const section of sections) {
+            if (section.getBoundingClientRect().top <= marker) current = section.id;
+        }
+        const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+        if (atBottom) current = sections[sections.length - 1].id;
+        setActiveSection(current);
+    }
+
+    if (sections.length && navLinks.length) {
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(() => { updateActiveSection(); ticking = false; });
+        }, { passive: true });
+        window.addEventListener('resize', updateActiveSection);
+
+        // A clicked section stays highlighted even if the page can't scroll it to the
+        // marker (e.g. near the bottom), until the user scrolls on their own again.
+        navLinks.forEach(link => link.addEventListener('click', () => {
+            pinnedSection = link.dataset.section!;
+            setActiveSection(pinnedSection);
+        }));
+        const unpin = () => { pinnedSection = null; };
+        ['wheel', 'touchstart', 'keydown'].forEach(evt => window.addEventListener(evt, unpin, { passive: true }));
+
+        updateActiveSection();
+    }
+
+    // Copy email to clipboard
+    document.querySelectorAll<HTMLButtonElement>('.contact__copy').forEach(btn => {
+        const label = btn.querySelector('.contact__copy-label')!;
+        btn.addEventListener('click', async () => {
+            try {
+                await navigator.clipboard.writeText(btn.dataset.copy!);
+                label.textContent = 'Copied!';
+            } catch {
+                label.textContent = 'Failed';
+            }
+            setTimeout(() => { label.textContent = 'Copy'; }, 2000);
+        });
+    });
+
+</script>

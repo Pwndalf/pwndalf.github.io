@@ -1,0 +1,85 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Security Researcher & Penetration Tester" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content={description}>
+    <title>{title}</title>
+    <link rel="icon" href="/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="bg-glow bg-glow--1"></div>
+    <div class="bg-glow bg-glow--2"></div>
+    <div class="bg-glow bg-glow--3"></div>
+    <div class="scanline"></div>
+
+    <slot />
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__content">
+                <p class="footer__copy">&copy; {new Date().getFullYear()} Pwndalf. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar?.classList.toggle('navbar--scrolled', window.scrollY > 50);
+        });
+
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        function setMenuOpen(open: boolean) {
+            navToggle?.classList.toggle('active', open);
+            navToggle?.setAttribute('aria-expanded', String(open));
+            navLinks?.classList.toggle('active', open);
+        }
+        navToggle?.addEventListener('click', () => {
+            setMenuOpen(!navLinks?.classList.contains('active'));
+        });
+        navLinks?.querySelectorAll('.navbar__link').forEach(link => {
+            link.addEventListener('click', () => setMenuOpen(false));
+        });
+        // Close the dropdown on outside click or Escape
+        document.addEventListener('click', (e) => {
+            if (!navbar?.contains(e.target as Node)) setMenuOpen(false);
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') setMenuOpen(false);
+        });
+
+        const aosElements = document.querySelectorAll('[data-aos]');
+        if (aosElements.length) {
+            const obs = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const delay = parseInt((entry.target as HTMLElement).dataset.aosDelay || '0');
+                        setTimeout(() => entry.target.classList.add('aos-animate'), delay);
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+            aosElements.forEach(el => obs.observe(el));
+        }
+    </script>
+</body>
+</html>
+
+<style is:global>
+    @import '../styles/global.css';
+    @import '../styles/components.css';
+</style>

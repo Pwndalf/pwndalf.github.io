@@ -1,0 +1,31 @@
+---
+import { getMachine } from '../lib/htb';
+
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+const { name, difficulty, os, description, avatar } = getMachine(slug);
+const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+---
+
+<article
+    class="c-card glass-card"
+    data-difficulty={difficulty}
+    data-os={os.toLowerCase()}
+    data-title={name.toLowerCase()}
+    data-aos="fade-up">
+    <div class="c-card__header">
+        <span class={`c-badge c-badge--${difficulty}`}>{capitalize(difficulty)}</span>
+        <span class="c-badge c-badge--os">{os}</span>
+    </div>
+    <div class="walkthrough-card__machine-icon">
+        <img src={avatar} alt={name} class="walkthrough-card__machine-img">
+    </div>
+    <h3 class="c-card__title">{name}</h3>
+    <p class="c-card__desc walkthrough-card__desc" title={description}>{description}</p>
+    <div class="c-card__footer">
+        <a href={`/walkthroughs/${slug}`} class="btn btn--small btn--primary">Read Walkthrough</a>
+    </div>
+</article>

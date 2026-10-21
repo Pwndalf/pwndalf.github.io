@@ -1,0 +1,137 @@
+{
+  "administrator": {
+    "name": "Administrator",
+    "difficulty": "medium",
+    "os": "Windows",
+    "released": "09 Nov 2024",
+    "rating": "4.7",
+    "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cc-6f8a-46ba-b18f-c9c6154b3659.png",
+    "description": "Administrator is a medium-difficulty Windows machine designed around a complete domain compromise scenario, where credentials for a low-privileged user are provided. To gain access to the michael account, ACLs (Access Control Lists) over privileged objects are enumerated, leading us to discover that the user olivia has GenericAll permissions over michael, allowing us to reset his password. With access as michael, it is revealed that he can force a password change on the user benjamin, whose password is reset. This grants access to FTP  where a backup.psafe3 file is discovered, cracked, and reveals credentials for several users. These credentials are sprayed across the domain, revealing valid credentials for the user emily. Further enumeration shows that emily has GenericWrite permissions over the user ethan, allowing us to perform a targeted Kerberoasting attack. The recovered hash is cracked and reveals valid credentials for ethan, who is found to have DCSync rights ultimately allowing retrieval of the Administrator account hash and full domain compromise."
+  },
+  "babytwo": {
+    "name": "BabyTwo",
+    "difficulty": "medium",
+    "os": "Windows",
+    "released": "25 Sept 2025",
+    "rating": "4.9",
+    "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9feff46b-c9a9-43f6-aa35-2f7bc27cdee6.png",
+    "description": "BabyTwo is a medium-difficulty Windows machine set in an Active Directory environment. The initial foothold is gained through password guessing and the abuse of Windows logon scripts. Privilege escalation is achieved by exploiting misconfigured Access Control Lists (ACLs) and Group Policy Objects (GPOs)."
+  },
+  "blackfield": {
+    "name": "Blackfield",
+    "difficulty": "hard",
+    "os": "Windows",
+    "released": "06 Jun 2020",
+    "rating": "4.9",
+    "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d3-6fa8-498d-b7a5-880f2563098d.png",
+    "description": "Backfield is a hard difficulty Windows machine featuring Windows and Active Directory misconfigurations. Anonymous / Guest access to an SMB share is used to enumerate users. Once user is found to have Kerberos pre-authentication disabled, which allows us to conduct an ASREPRoasting attack. This allows us to retrieve a hash of the encrypted material contained in the AS-REP, which can be subjected to an offline brute force attack in order to recover the plaintext password. With this user we can access an SMB share containing forensics artefacts, including an lsass process dump.  This contains a username and a password for a user with WinRM privileges, who is also a member of the Backup Operators group. The privileges conferred by this privileged group are used to dump the Active Directory database, and retrieve the hash of the primary domain administrator."
+  },
+  "breach": {
+    "name": "Breach",
+    "difficulty": "medium",
+    "os": "Windows",
+    "released": "09 Oct 2025",
+    "rating": "4.8",
+    "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a006595f-717e-4108-b206-43c944e3f3aa.png",
+    "description": "Breach is a medium difficulty Windows machine, where guest access to an SMB share is available. By leveraging write permissions on that SMB share, NTLMv2 hashes of a domain user are captured to obtain valid credentials. With access as a low-privileged domain user, a kerberoastable service account (svc_mssql) is revealed. After getting access to the service account, a Silver Ticket attack is performed to impersonate the Administrator user and gain access to Microsoft SQL Server. Through the xp_cmdshell feature, remote code execution is achieved as the svc_mssql service account. Finally, privilege escalation is performed by abusing the SeImpersonatePrivilege privilege."
+  },
+  "certificate": {
+    "name": "Certificate",
+    "difficulty": "hard",
+    "os": "Windows",
+    "released": "31 May 2025",
+    "rating": "4.1",
+    "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9f02c75f-136f-4bea-a3b1-e4cddc91cb95.png",
+    "description": "Certificate is a hard Windows Active Directory machine that starts with an E-learning platform. The web application is vulnerable to Null-Byte Injection in its file upload feature, allowing a PHP reverse shell to be executed for initial access as xamppuser. Database credentials are retrieved, enabling lateral movement to the  Sara.B user. Further enumeration uncovers a network capture file that leaks Lion.SK’s credentials. Using these, Active Directory Certificate Services (ADCS) is enumerated, and a vulnerable template is exploited to request certificates on behalf of other users. A certificate for the Ryan.K user is then obtained, whose SeManageVolumePrivilege is leveraged to gain a shell as NT AUTHORITY\\NETWORK SERVICE. Finally, SeImpersonatePrivilege is used to escalate to NT AUTHORITY\\SYSTEM, dump ntds.dit and registry hives, and extract the Administrator’s NTLM hash, ultimately allowing access as the Administrator."
+  },
+  "certified": {
+    "name": "Certified",
+    "difficulty": "medium",
+    "os": "Windows",
+    "released": "02 Nov 2024",
+    "rating": "4.8",
+    "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cc-73f2-4924-8e26-50c24ae0618e.png",
+    "description": "Certified is a medium-difficulty Windows machine designed around an assumed breach scenario, where credentials for a low-privileged user are provided. To gain access to the management_svc account, ACLs (Access Control Lists) over privileged objects are enumerated leading us to discover that judith.mader which has the write owner ACL over management group, management group has GenericWrite over the management_svc account where we can finally authenticate to the target using WinRM obtaining the user flag. Exploitation of the Active Directory Certificate Service (ADCS) is required to get access to the Administrator account by abusing shadow credentials and  ESC9."
+  },
+  "darkzero": {
+    "name": "DarkZero",
+    "difficulty": "hard",
+    "os": "Windows",
+    "released": "04 Oct 2025",
+    "rating": "4.4",
+    "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9ff4ba31-6429-4ec3-bab5-6e77f0824285.png",
+    "description": "DarkZero is a hard-difficulty Windows machine designed around an assumed breach scenario in which the attacker is provided with low-privileged user credentials. The machine features an Active Directory environment with Bidirectional trust, Cross-domain MSSQL Trusted Link, and TGT Delegation. The attacker discovers a misconfigured MSSQL trusted link that points to a different domain (darkzero.htb -> darkzero.ext), and the remote login has sysadmin privileges. The attacker enables the xp_cmdshell procedure as a sysadmin and executes commands. The spawned session under MSSQLSERVICE doesn't have the SeImpersonatePrivilege; however, the user account running the service has the SeServiceLogonRight. The attacker is forced to change the password and get a new session with Logon Type 5 (Service Logon) to regain those privileges and gain system privileges on the DC02 (darkzero.ext). To compromise the darkzero.htb domain: the attacker abuses TGT delegation by forcing DC01 to authenticate to DC02, with Unconstrained Delegation enabled."
+  },
+  "delegate": {
+    "name": "Delegate",
+    "difficulty": "medium",
+    "os": "Windows",
+    "released": "11 Sept 2025",
+    "rating": "4.9",
+    "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9fd3fffc-59f7-4168-ad22-c46777673a11.png",
+    "description": "Delegate is a medium-difficulty Windows machine that involves Active Directory attacks. The machine has the guest account enabled, allowing the attacker to read files that contain hard-coded credentials. The credentials allow us to WriteProperty of a user account that is allowed to have WinRM sessions on the Domain Controller. The compromised user has the SeEnableDelegationPrivilege privilege assigned, which allows us to modify the TRUSTED_FOR_DELEGATION flag for AD objects, enabling us to perform Unconstrained Delegation."
+  },
+  "escape": {
+    "name": "Escape",
+    "difficulty": "medium",
+    "os": "Windows",
+    "released": "25 Feb 2023",
+    "rating": "4.8",
+    "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cf-9430-4c02-848d-6ad68598878f.png",
+    "description": "Escape is a Medium difficulty Windows Active Directory machine that starts with an SMB share that guest authenticated users can download a sensitive PDF file. Inside the PDF file temporary credentials are available for accessing an MSSQL service running on the machine. An attacker is able to force the MSSQL service to authenticate to his machine and capture the hash. It turns out that the service is running under a user account and the hash is crackable. Having a valid set of credentials an attacker is able to get command execution on the machine using WinRM. Enumerating the machine, a log file reveals the credentials for the user ryan.cooper. Further enumeration of the machine, reveals that a Certificate Authority is present and one certificate template is vulnerable to the ESC1 attack, meaning that users who are legible to use this template can request certificates for any other user on the domain including Domain Administrators. Thus, by exploiting the ESC1 vulnerability, an attacker is able to obtain a valid certificate for the Administrator account and then use it to get the hash of the administrator user."
+  },
+  "forest": {
+    "name": "Forest",
+    "difficulty": "easy",
+    "os": "Windows",
+    "released": "12 Oct 2019",
+    "rating": "4.6",
+    "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d4-b56c-4328-a5c3-0b326d506afe.png",
+    "description": "Forest is an easy Windows machine that showcases a Domain Controller (DC) for a domain in which Exchange Server has been installed. The DC allows anonymous LDAP binds, which are used to enumerate domain objects. The password for a service account with Kerberos pre-authentication disabled can be cracked to gain a foothold. The service account is found to be a member of the Account Operators group, which can be used to add users to privileged Exchange groups. The Exchange group membership is leveraged to gain DCSync privileges on the domain and dump the NTLM hashes, compromising the system."
+  },
+  "job": {
+    "name": "Job",
+    "difficulty": "medium",
+    "os": "Windows",
+    "released": "30 Sept 2025",
+    "rating": "4.8",
+    "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9ffe8dde-3d24-45e0-aa08-93bd485c9346.png",
+    "description": "Job is a Medium difficulty Windows box. It runs an SMTP server and its website accepts LibreOffice-compatible documents, providing a vector to deliver a document with embedded macros that leads to remote code execution as user jack.black. jack.black is a member of the DEVELOPERS group, which has write access to C:\\inetpub\\wwwroot (the IIS web root), allowing files to be placed in the webroot and achieve code execution as the IIS AppPool service account. The IIS AppPool account has the SeImpersonate privilege, creating conditions that allow token-impersonation techniques to be used to escalate privileges to Administrator."
+  },
+  "rebound": {
+    "name": "Rebound",
+    "difficulty": "insane",
+    "os": "Windows",
+    "released": "09 Sept 2023",
+    "rating": "4.9",
+    "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cd-9623-47f9-a6ad-eef2d86bcf68.png",
+    "description": "Rebound is an Insane Windows machine featuring a tricky Active Directory environment. User enumeration via RID cycling reveals an AS-REP-roastable user, whose TGT is used to Kerberoast another user with a crackable password. Weak ACLs are abused to obtain access to a group with FullControl over an OU, performing a Descendant Object Takeover (DOT), followed by a ShadowCredentials attack on a user with winrm access. On the target system, cross-session relay is leveraged to obtain the NetNTLMv2 hash of a logged-in user, which, once cracked, leads to a gMSA password read. Finally, the gMSA account allows delegation, but without protocol transition. Resource-Based Constrained Delegation (RBCD) is used to impersonate the Domain Controller, enabling a DCSync attack, leading to fully elevated privileges."
+  },
+  "rustykey": {
+    "name": "RustyKey",
+    "difficulty": "hard",
+    "os": "Windows",
+    "released": "28 Jun 2025",
+    "rating": "4.2",
+    "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9f2d4b44-2361-411e-8373-529cf8235f4d.png",
+    "description": "RustyKey is a hard difficulty Windows Machine which showcases a Timeroasting Attack, Active Directory ACL abuse following Windows Group Policy Enumeration to abuse the 7-Zip Shell Extension. For Privilege escalation, Active Directory Delegations are abused using a SPN-less Resource-Based Constrained Delegation attack."
+  },
+  "signed": {
+    "name": "Signed",
+    "difficulty": "medium",
+    "os": "Windows",
+    "released": "11 Oct 2025",
+    "rating": "3.2",
+    "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a00e8c83-0b2c-42d6-a0d0-56732621739e.png",
+    "description": "Signed is a medium-difficulty Windows machine that demonstrates the exploitation of an MSSQL server by extracting the NTLMv2 hash of the service account running the instance and cracking the hash to obtain its password. This enables the issuance of silver tickets for user impersonation and service access. The domain is then enumerated via the MSSQL instance to gather the necessary information to impersonate the Administrator account and grant command execution through the MSSQL service. For privilege escalation, the recently discovered CVE-2025-33073, an NTLM reflection attack, is leveraged to perform self-relaying even with signing enforced, providing access to the WinRMS interface."
+  },
+  "voleur": {
+    "name": "Voleur",
+    "difficulty": "medium",
+    "os": "Windows",
+    "released": "05 Jul 2025",
+    "rating": "4.8",
+    "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9f2d4e31-904e-4756-90fe-3d6872323ca1.png",
+    "description": "Voleur is a medium-difficulty Windows machine designed around an assumed breach scenario, where the attacker is provided with low-privileged user credentials. The machine features an Active Directory environment, and NTLM authentication is disabled.  After Kerberos configuration and network enumeration, a password-protected Excel file is found on an exposed SMB share. We extract its password hash, crack it to recover the password, and use that password to access the spreadsheet. Enumeration reveals a service account with WriteSPN rights, which enables a targeted Kerberoasting attack that recovers credentials and grants remote access to the host. A previously deleted domain user is restored using group privileges, and a DPAPI-protected credential blob is recovered, which is decrypted with the user’s password to reveal a higher-privilege account. These credentials lead to discovering an SSH private key for a backup service account, allowing access to a Linux subsystem over a nonstandard port. From this, the NTDS.dit, SYSTEM, and SECURITY backup files are extracted and used to recover the Administrator&#039;s NT hash, ultimately allowing access as the Administrator."
+  }
+}
