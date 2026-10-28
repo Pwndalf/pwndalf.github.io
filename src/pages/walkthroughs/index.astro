@@ -40,6 +40,23 @@ const sorted = walkthroughs.sort((a, b) => {
                 <div class="c-filters__separator"></div>
                 <button class="c-filters__btn" data-filter="windows">Windows</button>
                 <button class="c-filters__btn" data-filter="linux">Linux</button>
+
+                <div class="c-view-toggle">
+                    <button class="c-view-btn active" data-view="grid" aria-label="Grid view" aria-pressed="true">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <rect x="1.5" y="1.5" width="5.5" height="5.5" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                            <rect x="9" y="1.5" width="5.5" height="5.5" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                            <rect x="1.5" y="9" width="5.5" height="5.5" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                            <rect x="9" y="9" width="5.5" height="5.5" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                        </svg>
+                    </button>
+                    <button class="c-view-btn" data-view="list" aria-label="List view" aria-pressed="false">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <rect x="1.5" y="2" width="13" height="3" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                            <rect x="1.5" y="8" width="13" height="3" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
     </section>
@@ -106,4 +123,26 @@ const sorted = walkthroughs.sort((a, b) => {
     });
 
     searchInput?.addEventListener('input', applyFilters);
+
+    // View toggle: grid (card) vs list (horizontal row). Choice persists.
+    const grid = document.getElementById('walkthroughsGrid');
+    const viewBtns = document.querySelectorAll<HTMLButtonElement>('.c-view-btn');
+
+    function setView(view: string) {
+        grid?.classList.toggle('c-grid--list', view === 'list');
+        viewBtns.forEach(btn => {
+            const active = btn.dataset.view === view;
+            btn.classList.toggle('active', active);
+            btn.setAttribute('aria-pressed', String(active));
+        });
+        try { localStorage.setItem('walkthroughView', view); } catch {}
+    }
+
+    viewBtns.forEach(btn => {
+        btn.addEventListener('click', () => setView(btn.dataset.view!));
+    });
+
+    let savedView = 'grid';
+    try { savedView = localStorage.getItem('walkthroughView') || 'grid'; } catch {}
+    if (savedView === 'list') setView('list');
 </script>

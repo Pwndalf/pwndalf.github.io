@@ -519,31 +519,6 @@ hr + h4 {
     margin-bottom: 12px;
 }
 
-/* Pixelate effect: steps through the SVG filters defined in index.astro */
-.sr-filters {
-    position: absolute;
-    width: 0;
-    height: 0;
-    overflow: hidden;
-}
-
-.pixelate:hover {
-    animation: pixelate 0.6s steps(1, end);
-}
-
-@keyframes pixelate {
-    0%   { filter: url(#pixelate-4); }
-    20%  { filter: url(#pixelate-8); }
-    40%  { filter: url(#pixelate-12); }
-    60%  { filter: url(#pixelate-8); }
-    80%  { filter: url(#pixelate-4); }
-    100% { filter: none; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .pixelate:hover { animation: none; }
-}
-
 .hero__title {
     font-family: var(--font-mono);
     font-size: 20px;
@@ -817,11 +792,7 @@ hr + h4 {
 .contact__tiles {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
     gap: 12px;
-    /* Stretch the tile grid to the full height of the left column and let the
-       two rows share it equally, so the tiles aren't floating in dead space. */
-    align-self: stretch;
 }
 
 .contact__tile {

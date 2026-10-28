@@ -400,12 +400,97 @@
 }
 
 /* ============================================
+   View Toggle (grid / list)
+   ============================================ */
+.c-view-toggle {
+    display: flex;
+    gap: 4px;
+    margin-left: auto;
+    padding-left: 4px;
+}
+
+.c-view-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s var(--ease);
+}
+
+.c-view-btn:hover {
+    color: var(--accent);
+    border-color: var(--border-accent);
+    background: var(--accent-bg);
+}
+
+.c-view-btn.active {
+    color: var(--accent);
+    background: rgba(0, 255, 136, 0.1);
+    border-color: var(--accent);
+}
+
+/* ============================================
    Card Grid
    ============================================ */
 .c-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 24px;
+}
+
+/* ---- List view: one full-width horizontal row per card ---- */
+.c-grid--list {
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.c-grid--list .c-card {
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
+    grid-template-areas:
+        "icon title header footer"
+        "icon desc  desc   footer";
+    column-gap: 18px;
+    row-gap: 6px;
+    align-items: center;
+    padding: 18px 24px;
+}
+
+.c-grid--list .walkthrough-card__machine-icon {
+    grid-area: icon;
+    width: 72px;
+    height: 72px;
+    margin: 0;
+}
+
+.c-grid--list .c-card__header {
+    grid-area: header;
+    margin: 0;
+    justify-content: flex-start;
+}
+
+.c-grid--list .c-card__title {
+    grid-area: title;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.c-grid--list .c-card__desc {
+    grid-area: desc;
+    margin: 0;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+}
+
+.c-grid--list .c-card__footer {
+    grid-area: footer;
+    margin: 0;
 }
 
 /* ============================================
@@ -635,6 +720,25 @@
 
 @media (max-width: 600px) {
     .c-filters__separator { display: none; }
+
+    /* List view on phones: name on top, badges under it, button full-width below. */
+    .c-grid--list .c-card {
+        grid-template-columns: auto 1fr;
+        grid-template-areas:
+            "icon title"
+            "icon header"
+            "icon desc"
+            "footer footer";
+        row-gap: 4px;
+    }
+
+    .c-grid--list .c-card__footer {
+        margin-top: 12px;
+    }
+
+    .c-grid--list .c-card__footer .btn {
+        width: 100%;
+    }
 
     /* Search takes the full row so the filter buttons wrap below it. */
     .c-search--inline {

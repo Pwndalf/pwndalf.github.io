@@ -12,33 +12,6 @@ import DiscordIcon from '../icons/discord.svg';
 <BaseLayout title="Pwndalf — HTB Walkthroughs">
     <Navbar activePage="home" />
 
-    <!-- Pixelate filters for the hero name hover effect -->
-    <svg class="sr-filters" aria-hidden="true">
-        <defs>
-            <filter id="pixelate-4" x="0" y="0">
-                <feFlood x="2" y="2" height="1" width="1" />
-                <feComposite width="4" height="4" />
-                <feTile result="tiles" />
-                <feComposite in="SourceGraphic" in2="tiles" operator="in" />
-                <feMorphology operator="dilate" radius="2" />
-            </filter>
-            <filter id="pixelate-8" x="0" y="0">
-                <feFlood x="4" y="4" height="1" width="1" />
-                <feComposite width="8" height="8" />
-                <feTile result="tiles" />
-                <feComposite in="SourceGraphic" in2="tiles" operator="in" />
-                <feMorphology operator="dilate" radius="4" />
-            </filter>
-            <filter id="pixelate-12" x="0" y="0">
-                <feFlood x="6" y="6" height="1" width="1" />
-                <feComposite width="12" height="12" />
-                <feTile result="tiles" />
-                <feComposite in="SourceGraphic" in2="tiles" operator="in" />
-                <feMorphology operator="dilate" radius="6" />
-            </filter>
-        </defs>
-    </svg>
-
     <!-- Hero / Profile -->
     <section class="section section--hero" id="profile">
         <div class="container">
@@ -49,7 +22,7 @@ import DiscordIcon from '../icons/discord.svg';
                 <div class="hero__info">
                     <p class="hero__greeting">Hello World. I'm</p>
                     <div class="hero__name-row">
-                        <h1 class="hero__name pixelate">Pwndalf</h1>
+                        <h1 class="hero__name">Pwndalf</h1>
                         <img src="/images/profile.png" alt="Pwndalf" class="hero__photo">
                     </div>
                     <h2 class="hero__title">

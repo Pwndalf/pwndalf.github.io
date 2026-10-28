@@ -98,6 +98,15 @@
     "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9ffe8dde-3d24-45e0-aa08-93bd485c9346.png",
     "description": "Job is a Medium difficulty Windows box. It runs an SMTP server and its website accepts LibreOffice-compatible documents, providing a vector to deliver a document with embedded macros that leads to remote code execution as user jack.black. jack.black is a member of the DEVELOPERS group, which has write access to C:\\inetpub\\wwwroot (the IIS web root), allowing files to be placed in the webroot and achieve code execution as the IIS AppPool service account. The IIS AppPool account has the SeImpersonate privilege, creating conditions that allow token-impersonation techniques to be used to escalate privileges to Administrator."
   },
+  "lock": {
+    "name": "Lock",
+    "difficulty": "easy",
+    "os": "Windows",
+    "released": "21 Aug 2025",
+    "rating": "4.8",
+    "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9fa9fcff-0855-4822-89ba-eac02ceea809.png",
+    "description": "Lock is an easy-difficulty Windows machine that involves enumerating a Gitea repository to find a Personal Access Token. This token is then used to deploy an ASPX web shell on the server, which provides an initial foothold. A password is then decrypted from an mRemoteNG configuration file, providing access to a new user account. Finally, a local privilege escalation vulnerability in the PDF24 application is exploited to obtain a shell with SYSTEM privileges."
+  },
   "rebound": {
     "name": "Rebound",
     "difficulty": "insane",
@@ -115,6 +124,15 @@
     "rating": "4.2",
     "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9f2d4b44-2361-411e-8373-529cf8235f4d.png",
     "description": "RustyKey is a hard difficulty Windows Machine which showcases a Timeroasting Attack, Active Directory ACL abuse following Windows Group Policy Enumeration to abuse the 7-Zip Shell Extension. For Privilege escalation, Active Directory Delegations are abused using a SPN-less Resource-Based Constrained Delegation attack."
+  },
+  "sendai": {
+    "name": "Sendai",
+    "difficulty": "medium",
+    "os": "Windows",
+    "released": "28 Aug 2025",
+    "rating": "4.9",
+    "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9fb21238-ecd2-41e6-860d-c16c7d99e8dc.png",
+    "description": "Sendai is a medium-difficulty Windows Active Directory machine focused on weak account hygiene, GMSA abuse, and ADCS misconfigurations. Initial access is gained through anonymous SMB enumeration, revealing files that hint at expired accounts with weak passwords. RID brute-forcing identifies users, and login attempts highlight accounts in a forced password reset state. By resetting thomas.powell’s password, the attacker obtains a domain foothold. BloodHound analysis shows that Powell’s group membership can be leveraged to compromise the MGTSVC$ GMSA account, enabling remote code execution on the domain controller. Further local enumeration uncovers inline credentials for clifford.davey, whose CA-OPERATORS group membership grants GenericAll rights over a certificate template. Abusing ESC4/ESC1 conditions with Certipy, the attacker forges a certificate for the administrator account, retrieves its NT hash, and authenticates via WinRM, achieving full domain compromise."
   },
   "signed": {
     "name": "Signed",
