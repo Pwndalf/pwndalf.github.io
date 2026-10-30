@@ -709,6 +709,11 @@
     .c-grid {
         grid-template-columns: 1fr;
     }
+
+    /* The grid is single-column from here down, so the grid/list toggle is moot. */
+    .c-view-toggle {
+        display: none;
+    }
 }
 
 @media (max-width: 768px) {
